@@ -1,3 +1,9 @@
+/*
+En la version 2 se va a descartar el tablero (me trae problemas de panic) y solo me voy a quedar con las posiciones de las piezas.
+
+Para ver si una pieza se come a la otra, para cada pieza comparo si luego de hacer el movimiento sus posiciones se superponen
+ */
+
 use std::env;
 use std::fs;
 
@@ -5,291 +11,221 @@ mod tablero;
 use tablero::armar_tablero;
 
 enum Pieza{
-    Peon(DatosPieza),
-    Caballo(DatosPieza),
-    Alfil(DatosPieza),
-    Torre(DatosPieza),
-    Dama(DatosPieza),
-    Rey(DatosPieza),
+    Peon(Posicion, String),
+    Caballo(Posicion, String),
+    Alfil(Posicion, String),
+    Torre(Posicion, String),
+    Dama(Posicion, String),
+    Rey(Posicion, String),
+}
+
+struct Posicion{
+    x: i8,
+    y: i8,
 }
 
 /*
     Devuelve si la pieza se come a un contrincante o no
 */
 impl Pieza {
-    fn mover(&self, tablero: &Vec<Vec<char>>) -> bool{
+    fn captura(&self, contrincante:&Pieza) -> bool{
         match self {
-            Pieza::Peon(datos) => {
-                    mover_peon(tablero, &datos)
+            Pieza::Peon(posicion_atacante, color) => {
+                    mover_peon(&posicion_atacante, contrincante.get_posicion(), color)
                 },
-            Pieza::Caballo(datos) => {
-                    mover_caballo(tablero, &datos)
+            Pieza::Caballo(posicion_atacante, _) => {
+                    mover_caballo(&posicion_atacante, contrincante.get_posicion())
                 },
-            Pieza::Alfil(datos) => {
-                    mover_alfil(tablero, &datos)
+            Pieza::Alfil(posicion_atacante, _) => {
+                    mover_alfil(&posicion_atacante, contrincante.get_posicion())
                 },
-            Pieza::Torre(datos) => {
-                    mover_torre(tablero, &datos)
+            Pieza::Torre(posicion_atacante, _) => {
+                    mover_torre(&posicion_atacante, contrincante.get_posicion())
                 },
-            Pieza::Dama(datos) => {
-                    mover_dama(tablero, &datos)
+            Pieza::Dama(posicion_atacante,_) => {
+                    mover_dama(&posicion_atacante, contrincante.get_posicion())
                 },
-            Pieza::Rey(datos) => {
-                    mover_rey(tablero, &datos)
+            Pieza::Rey(posicion_atacante, _) => {
+                    mover_rey(&posicion_atacante, contrincante.get_posicion())
                 },
         }
     }
+
+    fn get_posicion(&self) -> &Posicion{
+        match self {
+            Pieza::Peon(posicion,..) => {
+                    posicion
+                },
+            Pieza::Caballo(posicion,..) => {
+                    posicion
+                },
+            Pieza::Alfil(posicion,..) => {
+                    posicion
+                },
+            Pieza::Torre(posicion,..) => {
+                    posicion
+                },
+            Pieza::Dama(posicion,..) => {
+                    posicion
+                },
+            Pieza::Rey(posicion,..) => {
+                    posicion
+                },
+        }
+    }
+
 }
 
-fn mover_caballo(tablero: &Vec<Vec<char>>, datos:&DatosPieza) -> bool{
-    let x:usize = datos.posicion.x;
-    let y:usize = datos.posicion.y;
+fn mover_rey(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
+    mover_horizontal(posicion_atacante, posicion_receptor, 1) || 
+        mover_vertical(posicion_atacante, posicion_receptor, 1) || 
+            mover_diagonal(posicion_atacante, posicion_receptor, 1, true, true)
+}
+
+
+fn mover_dama(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
+    mover_horizontal(posicion_atacante, posicion_receptor, 7) || 
+        mover_vertical(posicion_atacante, posicion_receptor, 7) || 
+            mover_diagonal(posicion_atacante, posicion_receptor, 7, true, true)
+}
+
+fn mover_torre(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
+    mover_horizontal(posicion_atacante, posicion_receptor, 7) || 
+        mover_vertical(posicion_atacante, posicion_receptor, 7)
+}
+
+fn mover_alfil(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
+    mover_diagonal(posicion_atacante, posicion_receptor, 7, true, true)
+}
+
+fn mover_peon(posicion_atacante:&Posicion, posicion_receptor: &Posicion, color:&String)-> bool{
+    if color == "blanco"{
+        mover_diagonal(posicion_atacante, posicion_receptor, 1, true, false)
+    }else {
+        mover_diagonal(posicion_atacante, posicion_receptor, 1, false, true)
+    }
+}
+
+fn mover_caballo(posicion_atacante:&Posicion, posicion_receptor: &Posicion) -> bool{
+
+    let mut captura_pieza = false;
     
-    let mut come_pieza = false;
-
-    if x+2 < 8{
-        if y+1 < 8{
-            if tablero[x+2][y+1].is_alphabetic(){
-                come_pieza = true;
-            }
+    
+    for i in 0..2{
+        
+        // Uno/Dos derecha y Uno/Dos para arriba o para abajo
+        if ( coinciden_x(posicion_atacante.x + 2-i , posicion_receptor.x) && 
+                coinciden_y(posicion_atacante.y + 1+i , posicion_receptor.y)
+            ) || 
+            ( coinciden_x(posicion_atacante.x + 2-i , posicion_receptor.x) && 
+                coinciden_y(posicion_atacante.y - (1+i), posicion_receptor.y) ){
+                captura_pieza = true;
         }
-        if y as i8 - 1 >= 0{
-            if tablero[x+2][y-1].is_alphabetic(){
-                come_pieza = true;
-            }
+
+        // Uno/Dos izquierda y Uno/Dos para arriba o para abajo
+        else if ( coinciden_x(posicion_atacante.x - (2+i) , posicion_receptor.x) && 
+                    coinciden_y(posicion_atacante.y + 1+i , posicion_receptor.y) 
+                ) || 
+            ( coinciden_x(posicion_atacante.x - (2+i) , posicion_receptor.x) && 
+                coinciden_y(posicion_atacante.y - (1+i), posicion_receptor.y) ){
+                captura_pieza = true;
         }
     }
+    captura_pieza
+}
 
-    if x+1 < 8{
-        if y+2 < 8{
-            if tablero[x+1][y+2].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-        if y as i8 - 2 >= 0{
-            if tablero[x+1][y-2].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
+/*
+    Indica si la componente en X coincide para ambas posiciones
+*/
+fn coinciden_x(x_atacante:i8, x_receptor:i8)-> bool{
+    x_atacante == x_receptor
+}
+
+/*
+    Indica si la componente en Y coincide para ambas posiciones
+*/
+fn coinciden_y(y_atacante:i8, y_receptor:i8)-> bool{
+    y_atacante == y_receptor
+}
+
+
+fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:i8, puede_mover_arriba:bool, puede_mover_abajo:bool)-> bool{
+
+    let mut come_pieza:bool = false;
+    let rango;
+
+    if puede_mover_arriba && !puede_mover_abajo{
+        rango = (-cant_pasos)..(0)
+    }else if !puede_mover_arriba && puede_mover_abajo{
+        rango = (0)..(cant_pasos+1)
+    }else{
+        rango = (-cant_pasos)..(cant_pasos+1)
     }
 
-    if x as i8 - 2 >= 0{
-        if y+1 < 8{
-            if tablero[x-2][y+1].is_alphabetic(){
+    for i in rango{
+
+        // Diagonal de izquierda a derecha y de arriba hacia abajo 
+        if coinciden_x(posicion_atacante.x + i, posicion_receptor.x) &&
+            coinciden_y( posicion_atacante.y + i, posicion_receptor.y ){
                 come_pieza = true;
-            }
+                break;
         }
-        if y as i8 - 1 >= 0{
-            if tablero[x-2][y-1].is_alphabetic(){
-                come_pieza = true;
-            }
+
+        // Diaogonal de derecha a izquierda y de arriba hacia abajo
+        else if coinciden_x(posicion_atacante.x - i, posicion_receptor.x) && 
+                    coinciden_y(posicion_atacante.y + i , posicion_receptor.y){
+            come_pieza = true;
+            break;
         }
     }
-
-    if x as i8 - 1 >= 0{
-        if y+2 < 8{
-            if tablero[x-1][y+2].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-        if y as i8 - 2 >= 0{
-            if tablero[x-1][y-2].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-    }
-
     come_pieza
+
 }
 
-fn mover_rey(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    mover_horizontal(tablero, &datos) || mover_vertical(tablero, &datos) || mover_diagonal(tablero, &datos)
+fn mover_horizontal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:usize)-> bool{
+
+        let mut come_pieza:bool = false;
+    
+        for i in 1..(cant_pasos+1){
+            
+            // derecha
+            if coinciden_x(posicion_atacante.x, posicion_receptor.x) && 
+                coinciden_y(posicion_atacante.y + i as i8, posicion_receptor.y){
+                    come_pieza = true;
+                    break;
+            }
+            
+            // izquierda
+            else if coinciden_x(posicion_atacante.x, posicion_receptor.x) && 
+                coinciden_y(posicion_atacante.y - i as i8, posicion_receptor.y){
+                    come_pieza = true;
+                    break;
+            }
+        }    
+        come_pieza
 }
 
-
-fn mover_dama(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    mover_horizontal(tablero, &datos) || mover_vertical(tablero, &datos) || mover_diagonal(tablero, &datos)
-}
-
-fn mover_torre(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    mover_horizontal(tablero, &datos) || mover_vertical(tablero, &datos)
-}
-
-fn mover_alfil(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    mover_diagonal(tablero, &datos)
-}
-
-fn mover_peon(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    let x:usize = datos.posicion.x;
-    let y:usize = datos.posicion.y;
+fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:usize)-> bool{
 
     let mut come_pieza:bool = false;
 
-    if x > 0 && x < 7 && y > 0 && y < 7{    // Si la pieza esta entre la fila 1-6 y la columna 1-6
-
-        if datos.color == "blanca"{ // Si es blanca va hacia arriba
-            if tablero[x+1][y+1].is_alphabetic() || tablero[x-1][y+1].is_alphabetic() {
+    for i in 1..(cant_pasos+1){
+        
+        // arriba
+        if coinciden_x(posicion_atacante.x - i as i8, posicion_receptor.x) && 
+            coinciden_y(posicion_atacante.y, posicion_receptor.y){
                 come_pieza = true;
-            }
-        }else{ // Si es Negra va hacia abajo
-            if tablero[x+1][y-1].is_alphabetic() || tablero[x-1][y-1].is_alphabetic() {
-                come_pieza = true;
-            }
+                break;
         }
-    }else if x == 0 && y > 0 && y < 7{  // Si esta en la columna 0
-
-        if datos.color == "blanca"{ // Si es blanca va hacia arriba
-            if tablero[x+1][y+1].is_alphabetic() {
+        
+        // abajo
+        else if coinciden_x(posicion_atacante.x + i as i8, posicion_receptor.x) && 
+            coinciden_y(posicion_atacante.y, posicion_receptor.y){
                 come_pieza = true;
-            }
-        }else{ // Si es Negra va hacia abajo
-            if tablero[x+1][y-1].is_alphabetic() {
-                come_pieza = true;
-            }
-        }
-    }else if x == 7 && y > 0 && y < 7{  // Si esta en la columna 7
-
-        if datos.color == "blanca"{ // Si es blanca va hacia arriba
-            if tablero[x-1][y+1].is_alphabetic() {
-                come_pieza = true;
-            }
-        }else{ // Si es Negra va hacia abajo
-            if tablero[x-1][y-1].is_alphabetic() {
-                come_pieza = true;
-            }
-        }
-    }
-
-    come_pieza
-}
-
-
-fn mover_diagonal(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-
-    let x:usize = datos.posicion.x;
-    let y:usize = datos.posicion.y;
-
-    let mut come_pieza:bool = false;
-
-    let mut max_pasos = 8;
-
-    if datos.mueve_a_un_paso{
-        max_pasos = 2;
-    }
-
-
-    for i in 1..max_pasos{
-
-        // derecha y abajo
-        if x+i < 8 && y+i < 8{
-            if tablero[x+i][y+i].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-
-        // derecha y arriba
-        if x+i < 8 && y as i8 - i as i8 >= 0{
-            if tablero[x+i][y-i].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-
-        // izquierda y arriba
-        if x as i8 - i as i8 >=0 && y as i8 - i as i8 >= 0{
-            if tablero[x-i][y-i].is_alphabetic(){
-                come_pieza = true;
-            }
-        }
-
-        // izquierda y abajo
-        if x as i8 - i as i8 >=0 && y+i < 8{
-            if tablero[x-i][y+i].is_alphabetic(){
-                come_pieza = true;
-            }
+                break;
         }
     }    
     come_pieza
-
-}
-
-fn mover_horizontal(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    
-        let x:usize = datos.posicion.x;
-        let y:usize = datos.posicion.y;
-    
-        let mut come_pieza:bool = false;
-
-        let mut max_pasos = 8;
-    
-        if datos.mueve_a_un_paso{
-            max_pasos = 2;
-        }
-    
-    
-        for i in 1..max_pasos{
-    
-            // derecha
-            if y+i < 8{
-                if tablero[x][y+i].is_alphabetic(){
-                    come_pieza = true;
-                }
-            }
-    
-            // izquierda
-            if y as i8 - i as i8 >= 0{
-                if tablero[x][y-i].is_alphabetic(){
-                    come_pieza = true;
-                }
-            }
-        }    
-        come_pieza
-    
-}
-
-fn mover_vertical(tablero: &Vec<Vec<char>>, datos:&DatosPieza)-> bool{
-    
-        let x = datos.posicion.x;
-        let y= datos.posicion.y;
-    
-        let mut come_pieza:bool = false;
-    
-        let mut max_pasos = 8;
-    
-        if datos.mueve_a_un_paso{
-            max_pasos = 2;
-        }
-    
-    
-        for i in 1..max_pasos{
-    
-            // Bajo 
-            if x+i < 8{
-                if tablero[x+i][y].is_alphabetic(){
-                    come_pieza = true;
-                }
-            }
-    
-            // Subo
-            if (x as i8 - i as i8) >= 0{
-                if tablero[x-i][y].is_alphabetic(){
-                    come_pieza = true;
-                }
-            }
-        }    
-        come_pieza
-    
-}
-
-
-struct DatosPieza{
-    color: String,
-    posicion: Posicion,
-    mueve_a_un_paso:bool,
-}
-
-struct Posicion{
-    x: usize,
-    y: usize,
 }
 
 
@@ -300,8 +236,8 @@ fn obtener_posicion_blanca(tablero: &Vec<Vec<char>>) -> Posicion{
     for (i, fila) in tablero.iter().enumerate() {
         for (j, c) in fila.iter().enumerate() {
             if c.is_ascii_uppercase(){
-                posicion.x = i;
-                posicion.y = j;
+                posicion.x = i as i8;
+                posicion.y = j as i8;
             }
         }
     }
@@ -316,8 +252,8 @@ fn obtener_posicion_negra(tablero: &Vec<Vec<char>>) -> Posicion{
     for (i, fila) in tablero.iter().enumerate() {
         for (j, c) in fila.iter().enumerate() {
             if c.is_ascii_lowercase(){
-                posicion.x = i;
-                posicion.y = j;
+                posicion.x = i as i8;
+                posicion.y = j as i8;
             }
         }
     }
@@ -332,15 +268,15 @@ fn obtener_posicion_negra(tablero: &Vec<Vec<char>>) -> Posicion{
 */
 fn crear_pieza(tablero: &Vec<Vec<char>>, posicion: Posicion, color:String) -> Option<Pieza> {
 
-    let pieza:char = tablero[posicion.x][posicion.y];
+    let pieza:char = tablero[posicion.x as usize][posicion.y as usize];
 
     match pieza {
-        'R' | 'r' => Some( Pieza::Rey(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:true}) ),
-        'D' | 'd' => Some( Pieza::Dama(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:false}) ),
-        'A' | 'a' => Some( Pieza::Alfil(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:false}) ),
-        'C' | 'c' => Some( Pieza::Caballo(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:false}) ),
-        'T' | 't' => Some( Pieza::Torre(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:false}) ),
-        'P' | 'p' => Some( Pieza::Peon(DatosPieza{color: color, posicion: posicion, mueve_a_un_paso:false}) ),
+        'R' | 'r' => Some( Pieza::Rey(Posicion::from(posicion), color) ),
+        'D' | 'd' => Some( Pieza::Dama(Posicion::from(posicion), color) ),
+        'A' | 'a' => Some( Pieza::Alfil(Posicion::from(posicion), color) ),
+        'C' | 'c' => Some( Pieza::Caballo(Posicion::from(posicion), color) ),
+        'T' | 't' => Some( Pieza::Torre(Posicion::from(posicion), color) ),
+        'P' | 'p' => Some( Pieza::Peon(Posicion::from(posicion), color) ),
         _ => None,
     }
 }
@@ -401,6 +337,7 @@ fn main() {
         }; 
         
     
-    formato_impresion(pieza_blanca.mover(&tablero),pieza_negra.mover(&tablero));
+    formato_impresion( pieza_blanca.captura(&pieza_negra), pieza_negra.captura(&pieza_blanca) )
+    //formato_impresion(pieza_blanca.mover(&tablero),pieza_negra.mover(&tablero));
 
 }
