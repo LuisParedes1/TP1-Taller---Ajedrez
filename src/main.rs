@@ -1,14 +1,11 @@
-/*
-En la version 2 se va a descartar el tablero (me trae problemas de panic) y solo me voy a quedar con las posiciones de las piezas.
-
-Para ver si una pieza se come a la otra, para cada pieza comparo si luego de hacer el movimiento sus posiciones se superponen
- */
-
 use std::env;
 use std::fs;
 
 mod tablero;
 use tablero::armar_tablero;
+
+const UN_PASO: i8 = 1;
+const SIN_LIM_PASOS: i8 = 7;
 
 enum Pieza{
     Peon(Posicion, String),
@@ -77,32 +74,32 @@ impl Pieza {
 }
 
 fn mover_rey(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
-    mover_horizontal(posicion_atacante, posicion_receptor, 1) || 
-        mover_vertical(posicion_atacante, posicion_receptor, 1) || 
-            mover_diagonal(posicion_atacante, posicion_receptor, 1, true, true)
+    mover_horizontal(posicion_atacante, posicion_receptor, UN_PASO) || 
+        mover_vertical(posicion_atacante, posicion_receptor, UN_PASO) || 
+            mover_diagonal(posicion_atacante, posicion_receptor, UN_PASO, true, true)
 }
 
 
 fn mover_dama(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
-    mover_horizontal(posicion_atacante, posicion_receptor, 7) || 
-        mover_vertical(posicion_atacante, posicion_receptor, 7) || 
-            mover_diagonal(posicion_atacante, posicion_receptor, 7, true, true)
+    mover_horizontal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS) || 
+        mover_vertical(posicion_atacante, posicion_receptor, SIN_LIM_PASOS) || 
+            mover_diagonal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS, true, true)
 }
 
 fn mover_torre(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
-    mover_horizontal(posicion_atacante, posicion_receptor, 7) || 
-        mover_vertical(posicion_atacante, posicion_receptor, 7)
+    mover_horizontal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS) || 
+        mover_vertical(posicion_atacante, posicion_receptor, SIN_LIM_PASOS)
 }
 
 fn mover_alfil(posicion_atacante:&Posicion, posicion_receptor: &Posicion)-> bool{
-    mover_diagonal(posicion_atacante, posicion_receptor, 7, true, true)
+    mover_diagonal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS, true, true)
 }
 
 fn mover_peon(posicion_atacante:&Posicion, posicion_receptor: &Posicion, color:&String)-> bool{
     if color == "blanco"{
-        mover_diagonal(posicion_atacante, posicion_receptor, 1, true, false)
+        mover_diagonal(posicion_atacante, posicion_receptor, UN_PASO, true, false)
     }else {
-        mover_diagonal(posicion_atacante, posicion_receptor, 1, false, true)
+        mover_diagonal(posicion_atacante, posicion_receptor, UN_PASO, false, true)
     }
 }
 
@@ -149,40 +146,44 @@ fn coinciden_y(y_atacante:i8, y_receptor:i8)-> bool{
 }
 
 
-fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:i8, puede_mover_arriba:bool, puede_mover_abajo:bool)-> bool{
+fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, max_pasos:i8, puede_mover_arriba:bool, puede_mover_abajo:bool)-> bool{
 
-    let mut come_pieza:bool = false;
+    let mut captura_pieza:bool = false;
     let rango;
 
     if puede_mover_arriba && !puede_mover_abajo{
-        rango = (-cant_pasos)..(0)
+        rango = (-max_pasos)..(0)
     }else if !puede_mover_arriba && puede_mover_abajo{
-        rango = (0)..(cant_pasos+1)
+        rango = (0)..(max_pasos+1)
     }else{
-        rango = (-cant_pasos)..(cant_pasos+1)
+        rango = (-max_pasos)..(max_pasos+1)
     }
 
     for i in rango{
 
         // Diagonal de izquierda a derecha y de arriba hacia abajo 
         if coinciden_x(posicion_atacante.x + i, posicion_receptor.x) &&
-            coinciden_y( posicion_atacante.y + i, posicion_receptor.y ){
-                come_pieza = true;
-                break;
+                coinciden_y( posicion_atacante.y + i, posicion_receptor.y ){
+                    captura_pieza = true;
+                    break;
         }
 
         // Diaogonal de derecha a izquierda y de arriba hacia abajo
         else if coinciden_x(posicion_atacante.x - i, posicion_receptor.x) && 
                     coinciden_y(posicion_atacante.y + i , posicion_receptor.y){
-            come_pieza = true;
-            break;
+                        captura_pieza = true;
+                        break;
         }
     }
-    come_pieza
+    captura_pieza
 
 }
 
-fn mover_horizontal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:usize)-> bool{
+/*
+    Me desplazo horizontalmente en el tablero y si las coordenadas coinciden entonces la pieza se come
+    Devuelvo si la pieza atacante come a la pieza receptor
+*/
+fn mover_horizontal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:i8)-> bool{
 
         let mut come_pieza:bool = false;
     
@@ -205,7 +206,11 @@ fn mover_horizontal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, c
         come_pieza
 }
 
-fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:usize)-> bool{
+/*
+    Me desplazo verticalmente en el tablero y si las coordenadas coinciden entonces la pieza se come.
+    Devuelvo si la pieza atacante come a la pieza receptor
+*/
+fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:i8)-> bool{
 
     let mut come_pieza:bool = false;
 
@@ -228,7 +233,12 @@ fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion, can
     come_pieza
 }
 
+/*
+    Busco en el tablero la posicion de la pieza blanca (en mayuscula)
 
+    En caso de no encontrar devuelve la posicion (0,0) y luego cuando creo la pieza
+    devuelve error en caso de no encontrarse la pieza en esa posicion defecto
+*/
 fn obtener_posicion_blanca(tablero: &Vec<Vec<char>>) -> Posicion{
 
     let mut posicion: Posicion = Posicion{x: 0, y: 0};
@@ -245,6 +255,12 @@ fn obtener_posicion_blanca(tablero: &Vec<Vec<char>>) -> Posicion{
     posicion
 }
 
+/*
+    Busco en el tablero la posicion de la pieza negra (en minuscula)
+
+    En caso de no encontrar devuelve la posicion (0,0) y luego cuando creo la pieza
+    devuelve error en caso de no encontrarse la pieza en esa posicion defecto
+*/
 fn obtener_posicion_negra(tablero: &Vec<Vec<char>>) -> Posicion{
 
     let mut posicion: Posicion = Posicion{x: 0, y: 0};
