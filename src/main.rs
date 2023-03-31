@@ -353,8 +353,7 @@ El output sera un caracter impreso por terminal:
     E: indica que ambas piezas pueden capturar.
     P: indica que ninguna pieza puede capturar.
 */
-fn formato_impresion(blanca_gana:bool, negra_gana:bool){
-    
+fn formato_impresion(blanca_gana:bool, negra_gana:bool){  
         if blanca_gana && negra_gana{
             println!("E");
         }else if blanca_gana{
