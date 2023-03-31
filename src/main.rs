@@ -351,9 +351,7 @@ fn main() {
             print!("No se pudo crear la pieza negra. Revisar que se encuentre en el archivo");
             return;
         }; 
-        
     
     formato_impresion( pieza_blanca.captura(&pieza_negra), pieza_negra.captura(&pieza_blanca) )
-    //formato_impresion(pieza_blanca.mover(&tablero),pieza_negra.mover(&tablero));
 
 }
