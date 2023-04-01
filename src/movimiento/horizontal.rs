@@ -14,12 +14,13 @@ pub fn mover_horizontal(posicion_atacante:&Posicion, posicion_receptor: &Posicio
 
     for i in 1..(cant_pasos+1){
         
-        // derecha
+        // Mueve hacia derecha
         if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x(), posicion_atacante.get_y() + i){
             come_pieza = true;
             break;
         }
 
+        // Mueve hacia izquierda
         else if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x(), posicion_atacante.get_y() - i){
             come_pieza = true;
             break;

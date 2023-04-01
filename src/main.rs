@@ -6,10 +6,8 @@ mod pieza;
 mod posicion;
 mod movimiento;
 
-
 use pieza::crear_pieza;
-use tablero::{armar_tablero, obtener_posicion_blanca, obtener_posicion_negra};
-
+use tablero::{armar_tablero, buscar_pieza_blanca, buscar_pieza_negra};
 
 /*
 El output sera un caracter impreso por terminal:
@@ -49,7 +47,7 @@ fn main() {
     let tablero: Vec<Vec<char>> = armar_tablero(&contenido);
 
     let pieza_blanca = 
-        if let Some(pieza) = crear_pieza(&tablero,obtener_posicion_blanca(&tablero), "blanco".to_string()) {
+        if let Some(pieza) = crear_pieza(&tablero,buscar_pieza_blanca(&tablero), "blanco".to_string()) {
             pieza
         } else {
             print!(" ERROR: No se pudo crear la pieza blanca. Revisar que se encuentre en el archivo");
@@ -57,7 +55,7 @@ fn main() {
         };        
 
     let pieza_negra = 
-        if let Some(pieza) = crear_pieza(&tablero,obtener_posicion_negra(&tablero), "negro".to_string()) {
+        if let Some(pieza) = crear_pieza(&tablero,buscar_pieza_negra(&tablero), "negro".to_string()) {
             pieza
         } else {
             print!("ERROR: No se pudo crear la pieza negra. Revisar que se encuentre en el archivo");

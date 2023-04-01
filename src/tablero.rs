@@ -29,7 +29,7 @@ pub fn armar_tablero(contents: &str) -> Vec<Vec<char>> {
     En caso de no encontrar devuelve la posicion (0,0) y luego cuando creo la pieza
     devuelve error en caso de no encontrarse la pieza en esa posicion defecto
 */
-pub fn obtener_posicion_negra(tablero: &Vec<Vec<char>>) -> Posicion{
+pub fn buscar_pieza_negra(tablero: &Vec<Vec<char>>) -> Posicion{
 
     let mut posicion: Posicion = Posicion::new(0, 0);
 
@@ -50,7 +50,7 @@ pub fn obtener_posicion_negra(tablero: &Vec<Vec<char>>) -> Posicion{
     En caso de no encontrar devuelve la posicion (0,0) y luego cuando creo la pieza
     devuelve error en caso de no encontrarse la pieza en esa posicion defecto
 */
-pub fn obtener_posicion_blanca(tablero: &Vec<Vec<char>>) -> Posicion{
+pub fn buscar_pieza_blanca(tablero: &Vec<Vec<char>>) -> Posicion{
 
     let mut posicion: Posicion = Posicion::new(0, 0);
 

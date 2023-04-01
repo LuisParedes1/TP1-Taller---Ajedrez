@@ -14,12 +14,13 @@ pub fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion,
 
     for i in 1..(cant_pasos+1){
         
-        // arriba
+        // mueve hacia arriba
         if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y()){
             come_pieza = true;
             break;
         }
 
+        // mueve hacia abajo
         else if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() + i, posicion_atacante.get_y()){
             come_pieza = true;
             break;

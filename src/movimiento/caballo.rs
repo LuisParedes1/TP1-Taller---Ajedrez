@@ -14,13 +14,14 @@ pub fn mover_l(posicion_atacante:&Posicion, posicion_receptor: &Posicion) -> boo
         if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() + 2-i, posicion_atacante.get_y() + 1+i) ||
             posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() + 2-i, posicion_atacante.get_y() - (1+i)){
                 captura_pieza = true;
+                break;
         }
-
 
         // Uno/Dos izquierda y Uno/Dos para arriba o para abajo
         else if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() - (2+i), posicion_atacante.get_y() + 1+i) ||
             posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() - (2+i), posicion_atacante.get_y() - (1+i)){
                 captura_pieza = true;
+                break;
         }
     }
     captura_pieza

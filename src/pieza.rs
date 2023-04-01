@@ -12,7 +12,6 @@ pub enum Pieza{
     Rey(Posicion, String),
 }
 
-
 /*
     Devuelve la pieza que se encuentra en la posicion indicada. 
     
