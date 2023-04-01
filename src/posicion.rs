@@ -20,4 +20,8 @@ impl Posicion{
     pub fn get_y(&self) -> i8{
         self.y
     }
+
+    pub fn coinciden_coordenadas(&self, x_atacante: i8, y_atacante: i8) -> bool{
+        self.x == x_atacante && self.y == y_atacante
+    }
 }

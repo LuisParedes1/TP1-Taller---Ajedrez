@@ -4,7 +4,7 @@
 
 use crate::posicion::Posicion;
 
-fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, max_pasos:i8, puede_mover_arriba:bool, puede_mover_abajo:bool)-> bool{
+pub fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, max_pasos:i8, puede_mover_arriba:bool, puede_mover_abajo:bool)-> bool{
 
     let mut captura_pieza:bool = false;
     let rango;
@@ -19,18 +19,17 @@ fn mover_diagonal(posicion_atacante:&Posicion, posicion_receptor: &Posicion, max
 
     for i in rango{
         
+
         // Diagonal de izquierda a derecha y de arriba hacia abajo 
-        if coinciden_x(posicion_atacante.get_x() + i, posicion_receptor.get_x()) &&
-                coinciden_y( posicion_atacante.get_y() + i, posicion_receptor.get_y() ){
-                    captura_pieza = true;
-                    break;
+        if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() + i, posicion_atacante.get_y() + i){
+            captura_pieza = true;
+            break;
         }
 
         // Diaogonal de derecha a izquierda y de arriba hacia abajo
-        else if coinciden_x(posicion_atacante.get_x() - i, posicion_receptor.get_x()) && 
-                    coinciden_y(posicion_atacante.get_y() + i , posicion_receptor.get_y()){
-                        captura_pieza = true;
-                        break;
+        else if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y() + i){
+            captura_pieza = true;
+            break;
         }
     }
     captura_pieza
