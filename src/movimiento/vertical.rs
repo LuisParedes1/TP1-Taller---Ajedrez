@@ -8,23 +8,28 @@ use crate::posicion::Posicion;
     Me desplazo verticalmente en el tablero y si las coordenadas coinciden entonces la pieza se come.
     Devuelvo si la pieza atacante come a la pieza receptor
 */
-pub fn mover_vertical(posicion_atacante:&Posicion, posicion_receptor: &Posicion, cant_pasos:i8)-> bool{
+pub fn mover_vertical(
+    posicion_atacante: &Posicion,
+    posicion_receptor: &Posicion,
+    cant_pasos: i8,
+) -> bool {
+    let mut come_pieza: bool = false;
 
-    let mut come_pieza:bool = false;
-
-    for i in 1..(cant_pasos+1){
-        
+    for i in 1..(cant_pasos + 1) {
         // mueve hacia arriba
-        if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y()){
+        if posicion_receptor
+            .coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y())
+        {
             come_pieza = true;
             break;
         }
-
         // mueve hacia abajo
-        else if posicion_receptor.coinciden_coordenadas(posicion_atacante.get_x() + i, posicion_atacante.get_y()){
+        else if posicion_receptor
+            .coinciden_coordenadas(posicion_atacante.get_x() + i, posicion_atacante.get_y())
+        {
             come_pieza = true;
             break;
         }
-    }    
+    }
     come_pieza
 }
