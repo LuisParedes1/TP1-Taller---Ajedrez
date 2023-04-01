@@ -1,6 +1,7 @@
-/*
-    Movimiento horizontal (reina, torre y rey)
-*/
+//! Movimiento horizontal (reina, torre y rey)
+//!
+//! Me muevo horizontalmente en el tablero y si el atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true. 
+//! Caso contrario se devuelve false.
 
 use crate::posicion::Posicion;
 
@@ -32,4 +33,37 @@ pub fn mover_horizontal(
         }
     }
     come_pieza
+}
+
+mod tests {
+
+    #![allow(unused_imports)]
+    use super::*;
+
+    #[test]
+    fn test_atacante_no_come_receptor(){
+        let posicion_atacante = Posicion::new(3, 3);
+        let posicion_receptor = Posicion::new(4, 3);
+        let cant_pasos = 7;
+
+        assert_eq!(mover_horizontal(&posicion_atacante, &posicion_receptor, cant_pasos), false);
+    }
+
+    #[test]
+    fn test_atacante_come_receptor_cercano(){
+        let posicion_atacante = Posicion::new(3, 3);
+        let posicion_receptor = Posicion::new(2, 3);
+        let cant_pasos = 1;
+
+        assert_eq!(mover_horizontal(&posicion_atacante, &posicion_receptor, cant_pasos), false);
+    }
+
+    #[test]
+    fn test_atacante_come_receptor_lejano(){
+        let posicion_atacante = Posicion::new(6, 3);
+        let posicion_receptor = Posicion::new(0, 3);
+        let cant_pasos = 7;
+
+        assert_eq!(mover_horizontal(&posicion_atacante, &posicion_receptor, cant_pasos), false);
+    }
 }

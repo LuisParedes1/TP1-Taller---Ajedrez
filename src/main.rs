@@ -27,6 +27,13 @@
 //! Por ejemplo
 //!
 //! cargo run -- tabla_1.txt
+//! 
+//! Comandos utiles:
+//! - *cargo test*: Ejecuto los tests unitarios y de integración.
+//! - *cargo fmt*: Formateo el código.
+//! - *cargo clippy*: 
+//! - *cargo doc --open*: Abre la documentacion en el navegador.
+
 
 use std::env;
 use std::fs;
@@ -67,7 +74,7 @@ fn main() {
         return;
     }
 
-    let filepath = "tablas/".to_owned() + &args[1]; // Las tablas estan en la carpeta tablas
+    let filepath = "tablas/".to_owned() + &args[1]; // Las tablas estan en la carpeta tablas. Ejemplo tablas/tabla_1.txt
 
     let contenido = if let Ok(archivo) = fs::read_to_string(filepath) {
         archivo
@@ -80,7 +87,7 @@ fn main() {
 
     let pieza_blanca = if let Some(pieza) = Pieza::new(
         tablero.get_pieza_blanca(),
-        tablero.buscar_pieza_blanca(),
+        tablero.posicion_pieza_blanca(),
         "blanco".to_string(),
     ) {
         pieza
@@ -91,7 +98,7 @@ fn main() {
 
     let pieza_negra = if let Some(pieza) = Pieza::new(
         tablero.get_pieza_negra(),
-        tablero.buscar_pieza_negra(),
+        tablero.posicion_pieza_negra(),
         "negro".to_string(),
     ) {
         pieza

@@ -1,3 +1,9 @@
+//! # Piezas
+//! 
+//! En este modulo me encargo de crear las piezas y de su comportamiento (atacar a otra pieza) 
+//! 
+//! En caso de que no se pueda crear correctamente la pieza, devuelvo un None y la funcion que lo llama se hace cargo.
+
 use crate::posicion::Posicion;
 
 use crate::movimiento::{
@@ -71,4 +77,88 @@ impl Pieza {
             Pieza::Rey(posicion, ..) => posicion,
         }
     }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test_devuelve_none_al_crear_pieza_si_no_es_pieza_valida() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('X', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_none());
+    }
+
+
+    #[test]
+    fn test_crea_peon_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('P', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+
+        let pieza = Pieza::new('p', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+    #[test]
+    fn test_crea_rey_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('R', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+
+        let pieza = Pieza::new('r', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+    #[test]
+    fn test_crea_dama_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('D', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+
+        let pieza = Pieza::new('d', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+    #[test]
+    fn test_crea_alfil_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('A', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+
+        let pieza = Pieza::new('a', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+    #[test]
+    fn test_crea_caballo_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('C', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+
+        let pieza = Pieza::new('c', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+
+    #[test]
+    fn test_crea_torre_correctamente() {
+        use crate::posicion::Posicion;
+
+        let pieza = Pieza::new('T', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+        
+        let pieza = Pieza::new('t', Posicion::new(1, 1), "blanco".to_string());
+        assert!(pieza.is_some());
+    }
+
+
 }
