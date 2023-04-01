@@ -27,13 +27,12 @@
 //! Por ejemplo
 //!
 //! cargo run -- tabla_1.txt
-//! 
+//!
 //! Comandos utiles:
 //! - *cargo test*: Ejecuto los tests unitarios y de integración.
 //! - *cargo fmt*: Formateo el código.
-//! - *cargo clippy*: 
+//! - *cargo clippy*:
 //! - *cargo doc --open*: Abre la documentacion en el navegador.
-
 
 use std::env;
 use std::fs;

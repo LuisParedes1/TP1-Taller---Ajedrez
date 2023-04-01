@@ -1,10 +1,9 @@
 //! # Movimiento del caballo
-//! 
+//!
 //! En este modulo implementa el movimiento en L caracteristico del caballo.
-//! 
-//! Si el moverse el caballo atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true. 
+//!
+//! Si el moverse el caballo atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
-
 
 use crate::posicion::Posicion;
 
@@ -44,7 +43,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_atacante_no_come_receptor(){
+    fn test_atacante_no_come_receptor() {
         let posicion_atacante = Posicion::new(3, 3);
         let posicion_receptor = Posicion::new(3, 4);
         assert_eq!(mover_l(&posicion_atacante, &posicion_receptor), false);
@@ -120,5 +119,4 @@ mod tests {
         let posicion_receptor = Posicion::new(1, 2);
         assert_eq!(mover_l(&posicion_atacante, &posicion_receptor), true);
     }
-
 }

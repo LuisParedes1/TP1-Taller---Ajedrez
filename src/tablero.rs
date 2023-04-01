@@ -5,7 +5,7 @@
 //! Siendo las piezas negras las que se encuentran en mayuscula, se devuelve la posicion de la primera pieza mayuscula encontrada.
 //! Para las piezas blancas es el mismo caso pero con minuscula.
 //!
-//! En caso de no encontrarse ninguna pieza en el tablero se devolvera la posicion por defecto (0,0).
+//! En caso de no encontrar la pieza (blanca o negra) en el tablero se devolvera la posicion por defecto (0,0).
 //!
 //! Luego, al crearse la pieza se devolvera un error en caso de que no haya ninguna pieza en la misma posicion
 
@@ -16,7 +16,6 @@ pub struct Tablero {
 }
 
 impl Tablero {
-
     pub fn new(contenido: &str) -> Tablero {
         let mut tablero: Vec<Vec<char>> = Vec::new();
 
@@ -102,7 +101,6 @@ mod tests {
         assert_eq!(tablero.get_pieza(posicion), '_');
     }
 
-
     #[test]
     fn test_al_pedirle_la_posicion_de_pieza_blanca_devuelve_la_posicion_correcta() {
         let contenido = std::fs::read_to_string("tablas/table_1.txt").unwrap();
@@ -110,8 +108,14 @@ mod tests {
         let tablero = Tablero::new(&contenido);
         let posicion_correcta = Posicion::new(5, 6);
 
-        assert_eq!(tablero.posicion_pieza_blanca().get_x(), posicion_correcta.get_x());
-        assert_eq!(tablero.posicion_pieza_blanca().get_y(), posicion_correcta.get_y());
+        assert_eq!(
+            tablero.posicion_pieza_blanca().get_x(),
+            posicion_correcta.get_x()
+        );
+        assert_eq!(
+            tablero.posicion_pieza_blanca().get_y(),
+            posicion_correcta.get_y()
+        );
     }
 
     #[test]
@@ -124,7 +128,6 @@ mod tests {
         assert_eq!(tablero.get_pieza_blanca(), pieza);
     }
 
-
     #[test]
     fn test_al_pedirle_la_posicion_de_pieza_negra_devuelve_la_posicion_correcta() {
         let contenido = std::fs::read_to_string("tablas/table_1.txt").unwrap();
@@ -132,8 +135,14 @@ mod tests {
         let tablero = Tablero::new(&contenido);
         let posicion_correcta = Posicion::new(2, 3);
 
-        assert_eq!(tablero.posicion_pieza_negra().get_x(), posicion_correcta.get_x());
-        assert_eq!(tablero.posicion_pieza_negra().get_y(), posicion_correcta.get_y());
+        assert_eq!(
+            tablero.posicion_pieza_negra().get_x(),
+            posicion_correcta.get_x()
+        );
+        assert_eq!(
+            tablero.posicion_pieza_negra().get_y(),
+            posicion_correcta.get_y()
+        );
     }
 
     #[test]
@@ -145,6 +154,4 @@ mod tests {
 
         assert_eq!(tablero.get_pieza_negra(), pieza);
     }
-
 }
-

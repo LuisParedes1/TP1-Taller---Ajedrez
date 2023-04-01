@@ -1,7 +1,7 @@
 //! # Piezas
-//! 
-//! En este modulo me encargo de crear las piezas y de su comportamiento (atacar a otra pieza) 
-//! 
+//!
+//! En este modulo me encargo de crear las piezas y definir comportamiento (atacar a otra pieza)
+//!
 //! En caso de que no se pueda crear correctamente la pieza, devuelvo un None y la funcion que lo llama se hace cargo.
 
 use crate::posicion::Posicion;
@@ -92,7 +92,6 @@ mod tests {
         assert!(pieza.is_none());
     }
 
-
     #[test]
     fn test_crea_peon_correctamente() {
         use crate::posicion::Posicion;
@@ -148,17 +147,14 @@ mod tests {
         assert!(pieza.is_some());
     }
 
-
     #[test]
     fn test_crea_torre_correctamente() {
         use crate::posicion::Posicion;
 
         let pieza = Pieza::new('T', Posicion::new(1, 1), "blanco".to_string());
         assert!(pieza.is_some());
-        
+
         let pieza = Pieza::new('t', Posicion::new(1, 1), "blanco".to_string());
         assert!(pieza.is_some());
     }
-
-
 }
