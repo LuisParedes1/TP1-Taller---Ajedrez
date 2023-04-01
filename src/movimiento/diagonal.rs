@@ -272,7 +272,7 @@ mod tests {
     }
 
     #[test]
-    fn test_peon_negro_pegado_der_come_pieza_negra() {
+    fn test_peon_blanco_come_pieza_negro() {
         let posicion_atacante = Posicion::new(6, 4);
         let posicion_receptor = Posicion::new(7, 5);
         let max_pasos = 1;
