@@ -7,7 +7,7 @@
 //!
 //! ## Objetivo
 //! Determinar si dos piezas cualesquiera de ajedrez se pueden comer entre si dadas sus
-//! posiciones en un tablero de ajedrez, implementandolo en Rust.
+//! posiciones en un tablero de ajedrez. Implementarlo usando Rust.
 //!
 //! Imprimir por terminal:
 //!
@@ -22,20 +22,20 @@
 //!
 //! cargo run -- <- archivo ->
 //!
-//! En particular se cuenta con 4 archivos de prueba: tabla_1.txt, tabla_2.txt, tabla_3.txt y tabla_4.txt
+//! En particular se cuenta con varios archivos de prueba en la carpeta "tablas".
 //!
-//! Por ejemplo
+//! Ejemplo de ejecución:
 //!
 //! cargo run -- tabla_1.txt
 //!
 //! Comandos utiles:
 //! - *cargo test*: Ejecuto los tests unitarios y de integración.
 //! - *cargo fmt*: Formateo el código.
-//! - *cargo clippy*:
+//! - *cargo clippy*: Herramienta para detectar errores en el codigo.
 //! - *cargo doc --open*: Abre la documentacion en el navegador.
 //!
 //! ## Modulos
-//! 
+//!
 //! * módulo [Movimiento](movimiento):
 //! En este modulo se definen los movimientos de cada piezas
 //! * módulo [Pieza](pieza):
