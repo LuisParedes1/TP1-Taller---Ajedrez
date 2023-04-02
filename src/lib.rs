@@ -50,15 +50,6 @@
 /// Movimiento de las piezas
 pub mod movimiento;
 
-/* Ver como arreglar  
-pub mod movimiento{
-    pub mod caballo;
-    pub mod diagonal;
-    pub mod horizontal;
-    pub mod vertical;
-}
-*/
-
 /// Piezas de ajedrez
 pub mod pieza;
 
