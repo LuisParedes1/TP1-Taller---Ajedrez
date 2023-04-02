@@ -1,5 +1,5 @@
 //! # Error
-//! 
+//!
 //! Distintos tipos de errores que pueden suceder en el programas:
 //!
 //! * PiezaBlancaAusente: No se pudo crear la pieza blanca porque no se encontro en el tablero.

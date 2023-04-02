@@ -26,7 +26,7 @@ const UN_PASO: i8 = 1;
 const SIN_LIM_PASOS: i8 = 7;
 
 /// Movimiento de Rey: Se mueve Vertical, Horizontal y Diagonal de a un paso.
-/// 
+///
 /// Devuelve si el Rey captura al receptor.
 pub fn mover_rey(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     mover_horizontal(posicion_atacante, posicion_receptor, UN_PASO)
@@ -35,7 +35,7 @@ pub fn mover_rey(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> 
 }
 
 /// Movimiento de Dama: Se mueve Vertical, Horizontal y Diagonal con pasos ilimitados.
-/// 
+///
 /// Devuelve si la Dama captura al receptor.
 pub fn mover_dama(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     mover_horizontal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS)
@@ -50,7 +50,7 @@ pub fn mover_dama(posicion_atacante: &Posicion, posicion_receptor: &Posicion) ->
 }
 
 /// Movimiento de Torre: Se mueve Vertical y Horizontalmente con pasos ilimitados.
-/// 
+///
 /// Devuelve si la Torre captura al receptor.
 pub fn mover_torre(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     mover_horizontal(posicion_atacante, posicion_receptor, SIN_LIM_PASOS)
@@ -58,7 +58,7 @@ pub fn mover_torre(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -
 }
 
 /// Movimiento de Alfil: Se mueve en Diagonal con pasos ilimitados
-/// 
+///
 /// Devuelve si el Alfil captura al receptor.
 pub fn mover_alfil(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     mover_diagonal(
@@ -70,10 +70,10 @@ pub fn mover_alfil(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -
     )
 }
 
-/// Movimiento de Peon: Me mueve en Diagonal de a un paso. 
-/// 
+/// Movimiento de Peon: Me mueve en Diagonal de a un paso.
+///
 /// Piezas blancas solo se desplazan hacia arriba y piezas negras solo hacia abajo.
-/// 
+///
 /// Devuelve si el Peon captura al receptor.
 pub fn mover_peon(
     posicion_atacante: &Posicion,
@@ -88,7 +88,7 @@ pub fn mover_peon(
 }
 
 /// Movimiento de Caballo: Movimiento en L
-/// 
+///
 /// Devuelve si el Caballo captura al receptor.
 pub fn mover_caballo(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     mover_l(posicion_atacante, posicion_receptor)

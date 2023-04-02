@@ -22,7 +22,7 @@ pub enum Pieza {
 
 impl Pieza {
     /// Creacion de pieza dada su letra, posicion y color.
-    /// 
+    ///
     /// En caso de que la letra no coincide con alguna pieza (Dama, Rey, Peon, Alfi, Caballo, Torre) devuelve un None.
     pub fn new(pieza: char, posicion: Posicion, color: String) -> Option<Pieza> {
         match pieza {

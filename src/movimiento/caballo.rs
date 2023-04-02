@@ -5,9 +5,6 @@
 //! Si el moverse el caballo atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
 
-// Por razones de legibilidad de codigo apago esta regla de clippy
-#![allow(clippy::if_same_then_else)]
-
 use crate::posicion::Posicion;
 
 /// Movimiento L del caballo
@@ -15,19 +12,13 @@ pub fn mover_l(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bo
     let mut captura_pieza = false;
 
     for i in 0..2 {
-        // Uno/Dos derecha y Uno/Dos para arriba o para abajo
         if posicion_receptor.coinciden_coordenadas(
             posicion_atacante.get_x() + 2 - i,
             posicion_atacante.get_y() + 1 + i,
         ) || posicion_receptor.coinciden_coordenadas(
             posicion_atacante.get_x() + 2 - i,
             posicion_atacante.get_y() - (1 + i),
-        ) {
-            captura_pieza = true;
-            break;
-        }
-        // Uno/Dos izquierda y Uno/Dos para arriba o para abajo
-        else if posicion_receptor.coinciden_coordenadas(
+        ) || posicion_receptor.coinciden_coordenadas(
             posicion_atacante.get_x() - (2 - i),
             posicion_atacante.get_y() + 1 + i,
         ) || posicion_receptor.coinciden_coordenadas(

@@ -22,7 +22,7 @@ impl Posicion {
     pub fn set_posicion(&mut self, x: i8, y: i8) {
         self.x = x;
         self.y = y;
-    }  
+    }
 
     /// Devuelve la coordenada x de la posición.
     pub fn get_x(&self) -> i8 {

@@ -3,14 +3,10 @@
 //! Me muevo horizontalmente en el tablero y si el atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
 
-// Por razones de legibilidad de codigo apago esta regla de clippy
-#![allow(clippy::if_same_then_else)]
-
 use crate::posicion::Posicion;
 
-
 /// Me desplazo horizontalmente en el tablero y si las coordenadas coinciden entonces la pieza se come
-/// 
+///
 /// Devuelvo si la pieza atacante come a la pieza receptor
 pub fn mover_horizontal(
     posicion_atacante: &Posicion,
@@ -20,16 +16,10 @@ pub fn mover_horizontal(
     let mut come_pieza: bool = false;
 
     for i in 1..(cant_pasos + 1) {
-        // Mueve hacia derecha
         if posicion_receptor
             .coinciden_coordenadas(posicion_atacante.get_x(), posicion_atacante.get_y() + i)
-        {
-            come_pieza = true;
-            break;
-        }
-        // Mueve hacia izquierda
-        else if posicion_receptor
-            .coinciden_coordenadas(posicion_atacante.get_x(), posicion_atacante.get_y() - i)
+            || posicion_receptor
+                .coinciden_coordenadas(posicion_atacante.get_x(), posicion_atacante.get_y() - i)
         {
             come_pieza = true;
             break;

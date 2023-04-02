@@ -17,7 +17,6 @@ pub struct Tablero {
 }
 
 impl Tablero {
-
     /// Crea un tablero a partir del contenido de un archivo pasado por parametro como string
     pub fn new(contenido: &str) -> Tablero {
         let mut tablero: Vec<Vec<char>> = Vec::new();
@@ -37,7 +36,7 @@ impl Tablero {
     }
 
     /// Busco en el tablero la pieza negra.
-    /// 
+    ///
     /// En caso de no encontrarlo devuelve '_' (que seria la posicion (0,0) del tablero)
     pub fn posicion_pieza_negra(&self) -> Posicion {
         let mut posicion: Posicion = Posicion::new(0, 0);
@@ -58,7 +57,7 @@ impl Tablero {
     }
 
     /// Busco en el tablero la pieza blanca.
-    /// 
+    ///
     /// En caso de no encontrarlo devuelve '_' (que seria la posicion (0,0) del tablero)
     pub fn posicion_pieza_blanca(&self) -> Posicion {
         let mut posicion: Posicion = Posicion::new(0, 0);

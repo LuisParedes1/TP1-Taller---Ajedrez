@@ -5,7 +5,6 @@ use ej_individual::error::Error;
 use ej_individual::pieza::Pieza;
 use ej_individual::tablero::Tablero;
 
-
 ///  El output sera un caracter impreso por terminal:
 ///
 ///    B: indica que solo la pieza blanca pueden capturar.

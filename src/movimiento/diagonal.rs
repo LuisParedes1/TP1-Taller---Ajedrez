@@ -8,9 +8,6 @@
 //! Si el atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
 
-// Por razones de legibilidad de codigo apago esta regla de clippy
-#![allow(clippy::if_same_then_else)]
-
 use crate::posicion::Posicion;
 
 /// Movimiento diagonal (Peon, Dama, Rey o Alfil).
@@ -36,21 +33,16 @@ pub fn mover_diagonal(
     }
 
     for i in rango {
-        // Diagonal de izquierda a derecha y de arriba hacia abajo
         if posicion_receptor
             .coinciden_coordenadas(posicion_atacante.get_x() + i, posicion_atacante.get_y() + i)
-        {
-            captura_pieza = true;
-            break;
-        }
-        // Diaogonal de derecha a izquierda y de arriba hacia abajo
-        else if posicion_receptor
-            .coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y() + i)
+            || posicion_receptor
+                .coinciden_coordenadas(posicion_atacante.get_x() - i, posicion_atacante.get_y() + i)
         {
             captura_pieza = true;
             break;
         }
     }
+
     captura_pieza
 }
 
