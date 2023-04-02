@@ -8,10 +8,10 @@
 
 use crate::posicion::Posicion;
 
-/*
-    Me desplazo horizontalmente en el tablero y si las coordenadas coinciden entonces la pieza se come
-    Devuelvo si la pieza atacante come a la pieza receptor
-*/
+
+/// Me desplazo horizontalmente en el tablero y si las coordenadas coinciden entonces la pieza se come
+/// 
+/// Devuelvo si la pieza atacante come a la pieza receptor
 pub fn mover_horizontal(
     posicion_atacante: &Posicion,
     posicion_receptor: &Posicion,

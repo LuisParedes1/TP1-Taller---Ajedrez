@@ -8,10 +8,8 @@
 
 use crate::posicion::Posicion;
 
-/*
-    Me desplazo verticalmente en el tablero y si las coordenadas coinciden entonces la pieza se come.
-    Devuelvo si la pieza atacante come a la pieza receptor
-*/
+/// Me desplazo verticalmente en el tablero y si las coordenadas coinciden entonces la pieza se come.
+/// Devuelvo si la pieza atacante come a la pieza receptor
 pub fn mover_vertical(
     posicion_atacante: &Posicion,
     posicion_receptor: &Posicion,

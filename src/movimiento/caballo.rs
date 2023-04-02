@@ -10,6 +10,7 @@
 
 use crate::posicion::Posicion;
 
+/// Movimiento L del caballo
 pub fn mover_l(posicion_atacante: &Posicion, posicion_receptor: &Posicion) -> bool {
     let mut captura_pieza = false;
 

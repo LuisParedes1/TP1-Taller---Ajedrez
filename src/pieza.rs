@@ -10,6 +10,7 @@ use crate::movimiento::{
     mover_alfil, mover_caballo, mover_dama, mover_peon, mover_rey, mover_torre,
 };
 
+/// Variantes de las distintas piezas del juego (Peon, Caballo, Alfil, Torre, Dama, Rey)
 pub enum Pieza {
     Peon(Posicion, String),
     Caballo(Posicion, String),
@@ -19,13 +20,10 @@ pub enum Pieza {
     Rey(Posicion, String),
 }
 
-/*
-    Devuelve la pieza que se encuentra en la posicion indicada.
-
-    En caso de no coincidir con alguna pieza (Dama, Rey, Peon, Alfi, Caballo, Torre) devuelve un None.
-*/
-
 impl Pieza {
+    /// Creacion de pieza dada su letra, posicion y color.
+    /// 
+    /// En caso de que la letra no coincide con alguna pieza (Dama, Rey, Peon, Alfi, Caballo, Torre) devuelve un None.
     pub fn new(pieza: char, posicion: Posicion, color: String) -> Option<Pieza> {
         match pieza {
             'R' | 'r' => Some(Pieza::Rey(posicion, color)),
@@ -38,9 +36,7 @@ impl Pieza {
         }
     }
 
-    /*
-        Devuelve si la pieza se come a un contrincante o no
-    */
+    /// Devuelve si la pieza come a su contrincante
     pub fn captura(&self, contrincante: &Pieza) -> bool {
         match self {
             Pieza::Peon(posicion_atacante, color) => {
@@ -64,9 +60,7 @@ impl Pieza {
         }
     }
 
-    /*
-        Devuelve la posicion de la pieza actual
-    */
+    /// Devuelve la (Posicion)[Posicion] de la pieza.
     pub fn get_posicion(&self) -> &Posicion {
         match self {
             Pieza::Peon(posicion, ..) => posicion,

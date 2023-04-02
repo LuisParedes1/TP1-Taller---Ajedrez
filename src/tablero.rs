@@ -11,11 +11,14 @@
 
 use crate::posicion::Posicion;
 
+/// Tablero de ajedrez (8x8)
 pub struct Tablero {
     tablero: Vec<Vec<char>>,
 }
 
 impl Tablero {
+
+    /// Crea un tablero a partir del contenido de un archivo pasado por parametro como string
     pub fn new(contenido: &str) -> Tablero {
         let mut tablero: Vec<Vec<char>> = Vec::new();
 
@@ -33,11 +36,9 @@ impl Tablero {
         Tablero { tablero }
     }
 
-    /*
-        Busco en el tablero la pieza negra.
-
-        En caso de no encontrarlo devuelve _ (que seria la posicion (0,0) del tablero)
-    */
+    /// Busco en el tablero la pieza negra.
+    /// 
+    /// En caso de no encontrarlo devuelve '_' (que seria la posicion (0,0) del tablero)
     pub fn posicion_pieza_negra(&self) -> Posicion {
         let mut posicion: Posicion = Posicion::new(0, 0);
 
@@ -51,16 +52,14 @@ impl Tablero {
         posicion
     }
 
-    // Devuelve la pieza negra encontrada
+    /// Devuelve la pieza negra encontrada
     pub fn get_pieza_negra(&self) -> char {
         self.get_pieza(self.posicion_pieza_negra())
     }
 
-    /*
-        Busco en el tablero la pieza blanca.
-
-        En caso de no encontrarlo devuelve _ (que seria la posicion (0,0) del tablero)
-    */
+    /// Busco en el tablero la pieza blanca.
+    /// 
+    /// En caso de no encontrarlo devuelve '_' (que seria la posicion (0,0) del tablero)
     pub fn posicion_pieza_blanca(&self) -> Posicion {
         let mut posicion: Posicion = Posicion::new(0, 0);
 
@@ -74,12 +73,12 @@ impl Tablero {
         posicion
     }
 
-    // Devuelve la pieza blanca encontrada
+    /// Devuelve la pieza blanca encontrada
     pub fn get_pieza_blanca(&self) -> char {
         self.get_pieza(self.posicion_pieza_blanca())
     }
 
-    // Devuelve la pieza que se encuentra en la posicion indicada
+    /// Devuelve la pieza del tablero que se encuentra en la posicion indicada
     pub fn get_pieza(&self, posicion: Posicion) -> char {
         self.tablero[posicion.get_x() as usize][posicion.get_y() as usize]
     }

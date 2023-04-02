@@ -7,6 +7,7 @@
 //! * FaltaParametro: Se corrio el programa sin pasar el nombre del archivo que contiene el tablero.
 //! * ArchivoInvalido: No se encontro el archivo en la carpeta src/tablas/
 
+/// Distintos tipos de errores: PiezaBlancaAusente, PiezaNegraAusente, FaltaParametro & ArchivoInvalido
 #[derive(Debug)]
 pub enum Error {
     PiezaBlancaAusente(String),

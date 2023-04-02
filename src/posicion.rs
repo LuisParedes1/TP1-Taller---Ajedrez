@@ -6,29 +6,35 @@
 //!
 //! Se toma el extremo superior izquierda como la coordenada (0,0)
 
+/// Coordenadas (x,y) de una pieza en el tablero.
 pub struct Posicion {
     x: i8,
     y: i8,
 }
 
 impl Posicion {
+    /// Crea una nueva posición con las coordenadas (x,y) pasadas por parámetro.
     pub fn new(x: i8, y: i8) -> Posicion {
         Posicion { x, y }
     }
 
+    /// Setea las coordenadas (x,y) de la posición
     pub fn set_posicion(&mut self, x: i8, y: i8) {
         self.x = x;
         self.y = y;
-    }
+    }  
 
+    /// Devuelve la coordenada x de la posición.
     pub fn get_x(&self) -> i8 {
         self.x
     }
 
+    /// Devuelve la coordenada y de la posición.
     pub fn get_y(&self) -> i8 {
         self.y
     }
 
+    /// Devuelve true si las coordenadas (x,y) pasadas por parámetro coinciden con las coordenadas actuales.
     pub fn coinciden_coordenadas(&self, x_atacante: i8, y_atacante: i8) -> bool {
         self.x == x_atacante && self.y == y_atacante
     }

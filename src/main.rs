@@ -5,14 +5,14 @@ use ej_individual::error::Error;
 use ej_individual::pieza::Pieza;
 use ej_individual::tablero::Tablero;
 
-/*
-El output sera un caracter impreso por terminal:
 
-    B: indica que solo la pieza blanca pueden capturar.
-    N: indica que solo la pieza negra pueden capturar.
-    E: indica que ambas piezas pueden capturar.
-    P: indica que ninguna pieza puede capturar.
-*/
+///  El output sera un caracter impreso por terminal:
+///
+///    B: indica que solo la pieza blanca pueden capturar.
+///    N: indica que solo la pieza negra pueden capturar.
+///    E: indica que ambas piezas pueden capturar.
+///    P: indica que ninguna pieza puede capturar.
+
 fn formato_impresion(blanca_gana: bool, negra_gana: bool) {
     let mut resultado: char = 'P';
 

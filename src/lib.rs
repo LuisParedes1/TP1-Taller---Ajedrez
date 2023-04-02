@@ -47,17 +47,26 @@
 //! * módulo [Error](error):
 //! Distintos tipos de errores que pueden suceder en el programa.
 
-// Movimiento de las piezas
+/// Movimiento de las piezas
 pub mod movimiento;
 
-// Piezas de ajedrez
+/* Ver como arreglar  
+pub mod movimiento{
+    pub mod caballo;
+    pub mod diagonal;
+    pub mod horizontal;
+    pub mod vertical;
+}
+*/
+
+/// Piezas de ajedrez
 pub mod pieza;
 
-// posicion en el tablero
+/// posicion en el tablero
 pub mod posicion;
 
-// tablero de ajedrez
+/// tablero de ajedrez
 pub mod tablero;
 
-// Resultado de un partido
+/// Resultado de un partido
 pub mod error;

@@ -13,6 +13,7 @@
 
 use crate::posicion::Posicion;
 
+/// Movimiento diagonal (Peon, Dama, Rey o Alfil).
 pub fn mover_diagonal(
     posicion_atacante: &Posicion,
     posicion_receptor: &Posicion,
