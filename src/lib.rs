@@ -29,8 +29,8 @@
 //! cargo run -- tabla_1.txt
 //!
 //! Comandos utiles:
-//! - *cargo test*: Ejecuto los tests unitarios y de integración.
-//! - *cargo fmt*: Formateo el código.
+//! - *cargo test*: Ejecucion de los tests unitarios y de integración.
+//! - *cargo fmt*: Formateo del código.
 //! - *cargo clippy*: Herramienta para detectar errores en el codigo.
 //! - *cargo doc --open*: Abre la documentacion en el navegador.
 //!

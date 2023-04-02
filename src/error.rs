@@ -1,6 +1,11 @@
-//! Resultados de la ejecución del programa.
+//! # Error
+//! 
+//! Distintos tipos de errores que pueden suceder en el programas:
 //!
-//! El devuelve el ganador (N,B,E o P) y en caso de haber un error imprime el mensaje en terminal y devuelve el mensaje apropiado
+//! * PiezaBlancaAusente: No se pudo crear la pieza blanca porque no se encontro en el tablero.
+//! * PiezaNegraAusente: No se pudo crear la pieza negra porque no se encontro en el tablero.
+//! * FaltaParametro: Se corrio el programa sin pasar el nombre del archivo que contiene el tablero.
+//! * ArchivoInvalido: No se encontro el archivo en la carpeta src/tablas/
 
 #[derive(Debug)]
 pub enum Error {
