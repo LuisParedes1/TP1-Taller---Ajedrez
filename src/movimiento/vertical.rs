@@ -3,6 +3,9 @@
 //! Me muevo verticalmente en el tablero y si el atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
 
+// Por razones de legibilidad de codigo apago esta regla de clippy
+#![allow(clippy::if_same_then_else)]
+
 use crate::posicion::Posicion;
 
 /*

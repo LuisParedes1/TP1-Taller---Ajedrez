@@ -8,6 +8,9 @@
 //! Si el atacante coincide con la posicion del receptor entonces se captura la pieza y se devuelve true.
 //! Caso contrario se devuelve false.
 
+// Por razones de legibilidad de codigo apago esta regla de clippy
+#![allow(clippy::if_same_then_else)]
+
 use crate::posicion::Posicion;
 
 pub fn mover_diagonal(
@@ -22,10 +25,10 @@ pub fn mover_diagonal(
 
     if puede_mover_arriba && !puede_mover_abajo {
         // Caso Peon Blanco
-        rango = (-max_pasos)..(0)
+        rango = (-max_pasos)..0
     } else if !puede_mover_arriba && puede_mover_abajo {
         // Caso Peon Negro
-        rango = (0)..(max_pasos + 1)
+        rango = 0..(max_pasos + 1)
     } else {
         // Reina, Rey y Alfil
         rango = (-max_pasos)..(max_pasos + 1)

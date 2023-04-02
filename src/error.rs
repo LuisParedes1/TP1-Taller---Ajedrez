@@ -9,11 +9,3 @@ pub enum Error {
     FaltaParametro(String),
     ArchivoInvalido(String),
 }
-#[derive(Debug)]
-pub struct Ganador(pub char);
-
-impl std::process::Termination for Ganador {
-    fn report(self) -> std::process::ExitCode {
-        std::process::ExitCode::SUCCESS
-    }
-}

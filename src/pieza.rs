@@ -28,12 +28,12 @@ pub enum Pieza {
 impl Pieza {
     pub fn new(pieza: char, posicion: Posicion, color: String) -> Option<Pieza> {
         match pieza {
-            'R' | 'r' => Some(Pieza::Rey(Posicion::from(posicion), color)),
-            'D' | 'd' => Some(Pieza::Dama(Posicion::from(posicion), color)),
-            'A' | 'a' => Some(Pieza::Alfil(Posicion::from(posicion), color)),
-            'C' | 'c' => Some(Pieza::Caballo(Posicion::from(posicion), color)),
-            'T' | 't' => Some(Pieza::Torre(Posicion::from(posicion), color)),
-            'P' | 'p' => Some(Pieza::Peon(Posicion::from(posicion), color)),
+            'R' | 'r' => Some(Pieza::Rey(posicion, color)),
+            'D' | 'd' => Some(Pieza::Dama(posicion, color)),
+            'A' | 'a' => Some(Pieza::Alfil(posicion, color)),
+            'C' | 'c' => Some(Pieza::Caballo(posicion, color)),
+            'T' | 't' => Some(Pieza::Torre(posicion, color)),
+            'P' | 'p' => Some(Pieza::Peon(posicion, color)),
             _ => None,
         }
     }
@@ -44,22 +44,22 @@ impl Pieza {
     pub fn captura(&self, contrincante: &Pieza) -> bool {
         match self {
             Pieza::Peon(posicion_atacante, color) => {
-                mover_peon(&posicion_atacante, contrincante.get_posicion(), color)
+                mover_peon(posicion_atacante, contrincante.get_posicion(), color)
             }
             Pieza::Caballo(posicion_atacante, _) => {
-                mover_caballo(&posicion_atacante, contrincante.get_posicion())
+                mover_caballo(posicion_atacante, contrincante.get_posicion())
             }
             Pieza::Alfil(posicion_atacante, _) => {
-                mover_alfil(&posicion_atacante, contrincante.get_posicion())
+                mover_alfil(posicion_atacante, contrincante.get_posicion())
             }
             Pieza::Torre(posicion_atacante, _) => {
-                mover_torre(&posicion_atacante, contrincante.get_posicion())
+                mover_torre(posicion_atacante, contrincante.get_posicion())
             }
             Pieza::Dama(posicion_atacante, _) => {
-                mover_dama(&posicion_atacante, contrincante.get_posicion())
+                mover_dama(posicion_atacante, contrincante.get_posicion())
             }
             Pieza::Rey(posicion_atacante, _) => {
-                mover_rey(&posicion_atacante, contrincante.get_posicion())
+                mover_rey(posicion_atacante, contrincante.get_posicion())
             }
         }
     }
